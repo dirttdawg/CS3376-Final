@@ -74,6 +74,8 @@ void take_connections_forever(int ssock)
  
 int main()
 {
+	struct in_addr curr;
+	curr.s_addr = 10.24;
 	int choice=0;
 	printf("Enter 1 for type TCP and 2 for type GDP");
 	scanf("%d", &choice);
@@ -168,8 +170,8 @@ int main()
     }
 
     
-
-    sendto(sock, PORT_STR, strlen(PORT_STR), 0, get_addr(res2), ntohs(res2));
+   // was supposed to send info to log server
+   //  sendto(sock, PORT_STR, strlen(PORT_STR), 0, get_addr(res2, sa, curr), ntohs(res2));
  
     /* Serve the listening socket until killed */
     take_connections_forever(sock2);

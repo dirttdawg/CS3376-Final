@@ -46,6 +46,7 @@ void dostuff(int sock, char* ip)
 	fprintf(f,"%s", buffer);
 	fprintf(f, " was recieved from ");
 	fprintf(f,"%s\n", ip);
+	fclose(f);
 	if (n < 0) 
 		error("ERROR writing to socket");
 }
@@ -53,14 +54,17 @@ void dostuff(int sock, char* ip)
 This function is called when a system call fails. 
 It displays a message about the error on stderr and then aborts the program.
 If everything goes wrong this is our solution.
+*
 */
-char* get_addr(struct sockaddr_in, sa);
+
+/* function to get and send IP address
+char* get_addr(struct sockaddr_in sin_addr, struct sigaction *sa, struct in_addr curr) 
 {
 	char ipAddr[INET_ADDRSTRLEN];
 	inet_ntop(AF_INET, &(sa), ipAddr, INET_ADDRSTRLEN);
-	return inet_ntoa(sa.sin_sa);
+	return inet_ntoa(curr);
 }
-
+*/
 void error(const char *msg)
 {
 	perror(msg);
