@@ -15,9 +15,31 @@ process for each connection
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "server2.h"
+#include  <stdio.h>
+#include  <signal.h>
+#include  <stdlib.h>
+
+void INThandler(int);
+ //Thisll help us understand the ctrl-c
+ void  INThandler(int sig)
+ {
+ char  c;
+ signal(sig, SIG_IGN);
+ printf("OUCH, did you hit Ctrl-C?\n"
+ "Do you really want to quit? [y/n] ");
+ c = getchar();
+ if (c == 'y' || c == 'Y')
+ exit(0);
+ else
+ signal(SIGINT, INThandler);
+ getchar(); // Get new line character
+ }
 
 int main(int argc, char *argv[])
 {
+	signal(SIGINT, INThandler);
+	while(1)
+	pause();
 	/*
 	sockfd and newsockfd store the values returned by the socket system call and the accept system call.
 	portno stores the port number on which the server accepts connections.
