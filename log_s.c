@@ -20,20 +20,33 @@ process for each connection
 #include  <stdlib.h>
 
 void INThandler(int);
- //Thisll help us understand the ctrl-c
- void  INThandler(int sig)
- {
- char  c;
- signal(sig, SIG_IGN);
- printf("OUCH, did you hit Ctrl-C?\n"
- "Do you really want to quit? [y/n] ");
- c = getchar();
- if (c == 'y' || c == 'Y')
- exit(0);
- else
- signal(SIGINT, INThandler);
- getchar(); // Get new line character
- }
+//Thisll help us understand the ctrl-c
+void  INThandler(int sig)
+{
+ 	char  c;
+	signal(sig, SIG_IGN);
+	printf("OUCH, did you hit Ctrl-C?\n"
+	"Do you really want to quit? [y/n] ");
+	c = getchar();
+	if (c == 'y' || c == 'Y')
+	{
+		printf("echo_s is stopping\n"); //prints when echo_s will be terminated
+		exit(0);
+	}
+	else
+	{
+		signal(SIGINT, INThandler);
+		getchar(); // Get new line character
+	}
+	FILE *f;
+	f = fopen("echo.log", "a");//appends the text at the end of the specified file
+	if(f==NULL)//makes sure the file exists
+	{
+		printf("Error when opening the file.");
+		exit(1);
+	}
+	fprintf(f, "echo_s is stopping\n");//then logs the statement
+}	
 
 int main(int argc, char *argv[])
 {
@@ -54,9 +67,9 @@ int main(int argc, char *argv[])
 	This code displays an error message if the user fails to do this. In other words we are checking to ensure that
 	we are entering in valid arguements.
 	*/
-	if (argc < 2) 
+	if (argc < 3) 
 	{
-		fprintf(stderr, "ERROR, no port provided \n");
+		fprintf(stderr, "ERROR, incorrect format \n");
 		exit(1);
 	}
 	/*
@@ -74,7 +87,12 @@ int main(int argc, char *argv[])
 	and this statement uses the atoi() function to convert this from a string of digits to an integer. 
 	We need to make this conversion in order to continue. We need the port number.
 	*/
-	portno = atoi(argv[1]);
+	//DH:
+	//Given that this log already takes an argument for the port number,
+	//all that has to happen is to take it in the format specified
+	//by the assignment.
+	//So it will ignore -port and read in the number.
+	portno = atoi(argv[2]);
 	//The first field is short sin_family, which contains a code for the address family. It should always be set to the symbolic constant AF_INET.
 	serv_addr.sin_family = AF_INET;
 	//The third field of sockaddr_in is a structure of type struct in_addr. This field contains the IP address of the host.
