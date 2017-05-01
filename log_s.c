@@ -20,20 +20,33 @@ process for each connection
 #include  <stdlib.h>
 
 void INThandler(int);
- //Thisll help us understand the ctrl-c
- void  INThandler(int sig)
- {
- char  c;
- signal(sig, SIG_IGN);
- printf("OUCH, did you hit Ctrl-C?\n"
- "Do you really want to quit? [y/n] ");
- c = getchar();
- if (c == 'y' || c == 'Y')
- exit(0);
- else
- signal(SIGINT, INThandler);
- getchar(); // Get new line character
- }
+//Thisll help us understand the ctrl-c
+void  INThandler(int sig)
+{
+ 	char  c;
+	signal(sig, SIG_IGN);
+	printf("OUCH, did you hit Ctrl-C?\n"
+	"Do you really want to quit? [y/n] ");
+	c = getchar();
+	if (c == 'y' || c == 'Y')
+	{
+		printf("echo_s is stopping\n"); //prints when echo_s will be terminated
+		exit(0);
+	}
+	else
+	{
+		signal(SIGINT, INThandler);
+		getchar(); // Get new line character
+	}
+	FILE *f;
+	f = fopen("echo.log", "a");//appends the text at the end of the specified file
+	if(f==NULL)//makes sure the file exists
+	{
+		printf("Error when opening the file.");
+		exit(1);
+	}
+	fprintf(f, "echo_s is stopping\n");//then logs the statement
+}	
 
 int main(int argc, char *argv[])
 {
