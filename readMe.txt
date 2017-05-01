@@ -13,7 +13,7 @@ user2 - Absent
 
 Daniel Hwu - netid: dxh140030 | git username: dxh140030
 ----------------------------------------------------------
-user3 - Modified log_s to take two arguments unstead of one, and ignore
+user3 - Modified log_s to take two arguments instead of one, and ignore
 the first
 
 Diego Lara - netid: dxl161230 | git username: diegolara98
